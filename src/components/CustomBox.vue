@@ -9,6 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
+import { parseDimProp } from '@/core';
 
 export default defineComponent({
 	name: 'CustomBox',
@@ -90,21 +91,7 @@ export default defineComponent({
 			bottomRight: string
 		): Array<boolean | string> {
 			const corners = [topLeft, topRight, bottomRight, bottomLeft];
-			return corners.map(i => this.parseProp(i));
-		},
-
-		parseProp(input: string): boolean | string {
-			const match = input.match(/([0-9]+)(px|%)?/i);
-
-			// Invalid css dimension
-			if (match === null) {
-				return false;
-			}
-
-			// When only number, return as pixel
-			if (!match[2]) return `${match[1]}px`;
-
-			return input;
+			return corners.map(i => parseDimProp(i));
 		},
 	},
 });

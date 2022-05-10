@@ -47,6 +47,19 @@ $corner-color: #4b364e;
 		border: 2px solid $black;
 		border-radius: 6px;
 		max-width: 100px;
+		outline: none;
+	}
+
+	&.invalid {
+		input {
+			border-color: $red;
+		}
+
+		span {
+			margin-top: 6px;
+			font-weight: bold;
+			color: $red;
+		}
 	}
 }
 
