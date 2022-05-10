@@ -17,8 +17,8 @@
 import { defineComponent } from '@vue/runtime-core';
 import { PropType } from '@vue/runtime-core';
 
-import { parseDim } from '@/core';
 import { TCorner, TCornerName } from '@/types';
+import { DimensionEngine } from '@/core';
 
 export default defineComponent({
 	name: 'DimInput',
@@ -53,7 +53,7 @@ export default defineComponent({
 			this.$data.invalid = false;
 			const value = e.target.value;
 
-			if (parseDim(value) === false) {
+			if (DimensionEngine.parseDim(value) === false) {
 				this.$data.invalid = true;
 			}
 

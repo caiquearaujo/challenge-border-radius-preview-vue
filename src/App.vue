@@ -52,8 +52,8 @@ import { defineComponent } from 'vue';
 import CustomBox from './components/CustomBox.vue';
 import DimInput from './components/DimInput.vue';
 
-import { cssValue, increaseDim, decreaseDim } from '@/core';
 import { TCorner } from '@/types';
+import { CopyEngine, DimensionEngine } from '@/core';
 
 export default defineComponent({
 	name: 'App',
@@ -74,7 +74,7 @@ export default defineComponent({
 
 	computed: {
 		borderRadiusValue(): string {
-			return cssValue(
+			return DimensionEngine.cssValue(
 				this.$data.corners.topLeft,
 				this.$data.corners.topRight,
 				this.$data.corners.bottomLeft,
@@ -85,26 +85,18 @@ export default defineComponent({
 
 	methods: {
 		onIncrease(i: string, corner: TCorner): void {
-			this.$data.corners[corner] = increaseDim(i);
+			this.$data.corners[corner] = DimensionEngine.increaseDim(i);
 		},
 
 		onDecrease(i: string, corner: TCorner): void {
-			this.$data.corners[corner] = decreaseDim(i);
+			this.$data.corners[corner] = DimensionEngine.decreaseDim(i);
 		},
 
 		copy(): void {
-			const value = `border-radius: ${this.borderRadiusValue};`;
-
-			if (navigator.clipboard) {
-				navigator.clipboard
-					.writeText(value)
-					.then(() => this.copied())
-					.catch(() => this.copyFallback(value));
-
-				return;
-			}
-
-			this.copyFallback(value);
+			CopyEngine.copy(
+				`border-radius: ${this.borderRadiusValue};`,
+				this.copied.bind(this)
+			);
 		},
 
 		copied(): void {
@@ -113,33 +105,6 @@ export default defineComponent({
 			setTimeout(() => {
 				this.showCopy = false;
 			}, 1500);
-		},
-
-		copyFallback(value: string): void {
-			const el = document.createElement('textarea');
-
-			el.value = value;
-			el.setAttribute('readonly', '');
-			el.style.position = 'absolute';
-			el.style.left = '-9999px';
-			document.body.appendChild(el);
-
-			el.select();
-			el.setSelectionRange(0, 99999);
-
-			const copy = document.execCommand('copy');
-			document.body.removeChild(el);
-
-			if (copy) {
-				this.copied();
-			}
-
-			if (
-				window.getSelection() !== null &&
-				window.getSelection() !== undefined
-			) {
-				(window.getSelection() as any).removeAllRanges();
-			}
 		},
 	},
 });
