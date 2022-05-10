@@ -33,7 +33,13 @@
 				@decrease="onDecrease" />
 		</div>
 	</div>
-	<custom-box v-bind="corners" />
+	<custom-box :borderRadius="borderRadiusValue" />
+	<button class="copy" @click="() => copy()">
+		<div :class="['copied-box', { hidden: !showCopy }]">
+			Copied to clipboard
+		</div>
+		Copy CSS
+	</button>
 </template>
 
 <script lang="ts">
@@ -42,7 +48,7 @@ import { defineComponent } from 'vue';
 import CustomBox from './components/CustomBox.vue';
 import DimInput from './components/DimInput.vue';
 
-import { increaseDim, decreaseDim } from '@/core';
+import { cssValue, increaseDim, decreaseDim } from '@/core';
 import { TCorner } from '@/types';
 
 export default defineComponent({
@@ -58,7 +64,19 @@ export default defineComponent({
 				bottomRight: '10px',
 				bottomLeft: '10px',
 			} as Record<TCorner, string>,
+			showCopy: false,
 		};
+	},
+
+	computed: {
+		borderRadiusValue(): string {
+			return cssValue(
+				this.$data.corners.topLeft,
+				this.$data.corners.topRight,
+				this.$data.corners.bottomLeft,
+				this.$data.corners.bottomRight
+			);
+		},
 	},
 
 	methods: {
@@ -69,6 +87,60 @@ export default defineComponent({
 		onDecrease(i: string, corner: TCorner): void {
 			this.$data.corners[corner] = decreaseDim(i);
 		},
+
+		copy(): void {
+			const value = `border-radius: ${this.borderRadiusValue};`;
+
+			if (navigator.clipboard) {
+				navigator.clipboard
+					.writeText(value)
+					.then(() => this.copied())
+					.catch(() => this.copyFallback(value));
+
+				return;
+			}
+
+			this.copyFallback(value);
+		},
+
+		copied(): void {
+			this.showCopy = true;
+
+			setTimeout(() => {
+				this.showCopy = false;
+			}, 1500);
+		},
+
+		copyFallback(value: string): void {
+			const el = document.createElement('textarea');
+
+			el.value = value;
+			el.setAttribute('readonly', '');
+			el.style.position = 'absolute';
+			el.style.left = '-9999px';
+			document.body.appendChild(el);
+
+			el.select();
+			el.setSelectionRange(0, 99999);
+
+			const copy = document.execCommand('copy');
+			document.body.removeChild(el);
+
+			if (copy) {
+				this.copied();
+			}
+
+			if (
+				window.getSelection() !== null &&
+				window.getSelection() !== undefined
+			) {
+				(window.getSelection() as any).removeAllRanges();
+			}
+		},
 	},
 });
 </script>
+
+<style lang="scss">
+@import '@/styles/components/copy-button.scss';
+</style>

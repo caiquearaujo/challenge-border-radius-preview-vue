@@ -1,0 +1,18 @@
+$button-color: #4b364e;
+
+button.copy {
+	padding: 14px 12px 12px;
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+	color: $button-color;
+	background: transparent;
+	border: 2px solid $button-color;
+	border-radius: 6px;
+	text-transform: uppercase;
+	font-weight: bold;
+	width: 100%;
+	max-width: 200px;
+	margin: 0 auto;
+	display: table;
+	position: relative;
+}

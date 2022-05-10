@@ -13,6 +13,29 @@
 	}
 }
 
+.copied-box {
+	position: absolute;
+	bottom: 12px;
+	left: 50%;
+	padding: 14px 12px 12px;
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+	color: $white;
+	background-color: $black;
+	border-radius: 6px;
+	text-transform: uppercase;
+	font-weight: bold;
+	z-index: 99;
+	transform: translate(-50%, 0);
+	opacity: 1;
+	transition: transform 0.4s, opacity 0.4s;
+
+	&.hidden {
+		opacity: 0;
+		transform: translate(-50%, 50%);
+	}
+}
+
 @media screen and (max-width: 500px) {
 	.flex-wrapper {
 		max-width: 230px;
