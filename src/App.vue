@@ -22,17 +22,17 @@
 		</div>
 		<div class="column">
 			<dim-input
-				corner="bottomLeft"
-				name="bottom-left"
-				v-model="corners.bottomLeft"
+				corner="bottomRight"
+				name="bottom-right"
+				v-model="corners.bottomRight"
 				@increase="onIncrease"
 				@decrease="onDecrease" />
 		</div>
 		<div class="column">
 			<dim-input
-				corner="bottomRight"
-				name="bottom-right"
-				v-model="corners.bottomRight"
+				corner="bottomLeft"
+				name="bottom-left"
+				v-model="corners.bottomLeft"
 				@increase="onIncrease"
 				@decrease="onDecrease" />
 		</div>

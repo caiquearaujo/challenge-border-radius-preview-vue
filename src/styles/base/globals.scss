@@ -23,7 +23,7 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 
-	max-width: 500px;
+	max-width: 230px;
 	margin: 48px auto;
 
 	.column {
@@ -57,8 +57,6 @@
 
 @media screen and (max-width: 500px) {
 	.flex-wrapper {
-		max-width: 230px;
-
 		.column {
 			flex: 1 1 50%;
 		}
