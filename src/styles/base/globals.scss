@@ -1,3 +1,22 @@
+.title {
+	font-size: 3.2rem;
+	text-align: center;
+	font-weight: bold;
+	margin: 48px auto 24px;
+	width: 100%;
+	max-width: 280px;
+}
+
+.description {
+	width: 100%;
+	font-size: 1.6rem;
+	line-height: 2.2rem;
+	max-width: 230px;
+	padding: 0 16px;
+	margin: 0 auto;
+	text-align: center;
+}
+
 .flex-wrapper {
 	display: flex;
 	justify-content: space-between;

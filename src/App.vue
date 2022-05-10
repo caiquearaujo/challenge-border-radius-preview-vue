@@ -1,4 +1,8 @@
 <template>
+	<h1 class="title">Border-Radius Previewer</h1>
+	<p class="description">
+		Preview how the shape looks while changing border-radius corners.
+	</p>
 	<div class="flex-wrapper">
 		<div class="column">
 			<dim-input
