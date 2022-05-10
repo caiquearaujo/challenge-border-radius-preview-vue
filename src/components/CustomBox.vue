@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
-import { parseDimProp } from '@/core';
+import { parseDim } from '@/core';
 
 export default defineComponent({
 	name: 'CustomBox',
@@ -91,7 +91,7 @@ export default defineComponent({
 			bottomRight: string
 		): Array<boolean | string> {
 			const corners = [topLeft, topRight, bottomRight, bottomLeft];
-			return corners.map(i => parseDimProp(i));
+			return corners.map(i => parseDim(i));
 		},
 	},
 });
