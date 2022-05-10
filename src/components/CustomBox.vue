@@ -1,9 +1,8 @@
 <template>
-	<div class="custom-box" :style="`border-radius: ${borderRadius}`">
+	<div class="custom-box" :style="`border-radius: ${borderRadiusValue}`">
 		<span>
 			border-radius:
-			<span class="value">{{ borderRadius }}</span>
-			;
+			<span class="value">{{ borderRadiusValue }}</span>
 		</span>
 	</div>
 </template>
@@ -16,42 +15,96 @@ export default defineComponent({
 
 	props: {
 		topLeft: {
-			type: Number,
-			default: 0,
+			type: String,
+			default: '0px',
 		},
 		topRight: {
-			type: Number,
-			default: 0,
+			type: String,
+			default: '0px',
 		},
 		bottomLeft: {
-			type: Number,
-			default: 0,
+			type: String,
+			default: '0px',
 		},
 		bottomRight: {
-			type: Number,
-			default: 0,
+			type: String,
+			default: '0px',
 		},
 	},
 
 	computed: {
-		borderRadius(): string {
-			if (
-				[this.topLeft, this.topRight, this.bottomLeft, this.bottomRight].every(
-					i => i === this.topLeft
-				)
-			) {
-				return `${this.topLeft}px`;
+		borderRadiusValue(): string {
+			return this.borderRadius(
+				this.topLeft,
+				this.topRight,
+				this.bottomLeft,
+				this.bottomRight
+			);
+		},
+	},
+
+	methods: {
+		borderRadius(
+			topLeft: string,
+			topRight: string,
+			bottomLeft: string,
+			bottomRight: string
+		): string {
+			const corners = this.parseCorners(
+				topLeft,
+				topRight,
+				bottomLeft,
+				bottomRight
+			);
+
+			// Invalid corner found
+			if (corners.includes(false)) {
+				return '0px';
 			}
 
-			if (this.topLeft === this.bottomLeft && this.topRight === this.bottomRight) {
-				return `${this.topLeft}px ${this.topRight}px`;
+			// Same corners
+			if (corners.every(i => i === corners[0])) {
+				return `${corners[0]}`;
 			}
 
-			if (this.topLeft !== this.bottomRight && this.topRight === this.bottomLeft) {
-				return `${this.topLeft}px ${this.topRight}px ${this.bottomRight}px`;
+			const [tl, tr, br, bl] = corners;
+
+			// top-left-and-bottom-right | top-right-and-bottom-left
+			if (tl === br && tr === bl) {
+				return `${tl} ${tr}`;
 			}
 
-			return `${this.topLeft}px ${this.topRight}px ${this.bottomLeft}px ${this.bottomRight}px`;
+			// top-left | top-right-and-bottom-left | bottom-right
+			if (tl !== bl && tr === br) {
+				return `${tl} ${tr} ${bl}`;
+			}
+
+			// top-left | top-right | bottom-right | bottom-left
+			return corners.join(' ');
+		},
+
+		parseCorners(
+			topLeft: string,
+			topRight: string,
+			bottomLeft: string,
+			bottomRight: string
+		): Array<boolean | string> {
+			const corners = [topLeft, topRight, bottomRight, bottomLeft];
+			return corners.map(i => this.parseProp(i));
+		},
+
+		parseProp(input: string): boolean | string {
+			const match = input.match(/([0-9]+)(px|%)?/i);
+
+			// Invalid css dimension
+			if (match === null) {
+				return false;
+			}
+
+			// When only number, return as pixel
+			if (!match[2]) return `${match[1]}px`;
+
+			return input;
 		},
 	},
 });
