@@ -66,7 +66,7 @@ export default defineComponent({
 	},
 
 	methods: {
-		onChange(e: Event & { target: HTMLInputElement }): void {
+		onChange(e: any): void {
 			this.$data.invalid = false;
 			const value = e.target.value;
 
@@ -77,7 +77,7 @@ export default defineComponent({
 			this.$emit('update:modelValue', value);
 		},
 
-		onKeyDown(e: KeyboardEvent & { target: HTMLInputElement }): void {
+		onKeyDown(e: any): void {
 			const key = e.key || e.keyCode;
 
 			if (key === 'ArrowUp' || key === 38) {

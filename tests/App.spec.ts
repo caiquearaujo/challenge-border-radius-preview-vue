@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import App from '@/App.vue';
+import { TCorner } from '@/types';
 
 describe('App', () => {
 	const mounted = mount(App);
@@ -19,7 +20,12 @@ describe('App', () => {
 		expect(mounted.vm.showCopy).toBe(false);
 	});
 
-	const corners = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'];
+	const corners: Array<TCorner> = [
+		'topLeft',
+		'topRight',
+		'bottomLeft',
+		'bottomRight',
+	];
 
 	it.each(corners)(
 		'should increase dimension at corner %s.',
