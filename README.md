@@ -90,6 +90,3 @@ See the [CONTRIBUTING](CONTRIBUTING.md) file for information before submitting y
 ## License
 
 MIT License (MIT). See [LICENSE](LICENSE).
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
