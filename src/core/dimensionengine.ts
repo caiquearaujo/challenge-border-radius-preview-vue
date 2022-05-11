@@ -30,8 +30,8 @@ export default class DimensionEngine {
 		}
 
 		// top-left | top-right-and-bottom-left | bottom-right
-		if (tl !== bl && tr === br) {
-			return `${tl} ${tr} ${bl}`;
+		if (tl !== br && tr === bl) {
+			return `${tl} ${tr} ${br}`;
 		}
 
 		// top-left | top-right | bottom-right | bottom-left
@@ -44,13 +44,7 @@ export default class DimensionEngine {
 
 	static parseDim(input: string): boolean | string {
 		const match = DimensionEngine.matchDim(input);
-
-		// Invalid css dimension
-		if (match === null) {
-			return false;
-		}
-
-		return input;
+		return match === null ? false : `${match.num}${match.dim}`;
 	}
 
 	static increaseDim(input: string): string {

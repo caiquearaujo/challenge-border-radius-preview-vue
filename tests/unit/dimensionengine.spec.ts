@@ -21,6 +21,26 @@ describe('Dimension Engine', () => {
 		}
 	);
 
+	const parseDataSet = [
+		{ input: '-10', response: '-10px' },
+		{ input: '10', response: '10px' },
+		{ input: '-10px', response: '-10px' },
+		{ input: '10px', response: '10px' },
+		{ input: '-10%', response: '-10%' },
+		{ input: '10%', response: '10%' },
+		{ input: '-10p', response: false },
+		{ input: '10p', response: false },
+		{ input: 'a', response: false },
+		{ input: 'invalid', response: false },
+	];
+
+	it.each(parseDataSet)(
+		'can parse $input as $response',
+		({ input, response }) => {
+			expect(DimensionEngine.parseDim(input)).toStrictEqual(response);
+		}
+	);
+
 	const decreaseDataSet = [
 		{ input: 'invalid', response: '0px' },
 		{ input: '-5px', response: '0px' },
@@ -58,6 +78,194 @@ describe('Dimension Engine', () => {
 		'can increase $input to $response',
 		({ input, response }) => {
 			expect(DimensionEngine.increaseDim(input)).toStrictEqual(response);
+		}
+	);
+
+	const cornersDataSet = [
+		{
+			input: {
+				topLeft: 'a',
+				topRight: '10',
+				bottomLeft: '10',
+				bottomRight: '10',
+			},
+			response: '0px',
+		},
+		{
+			input: {
+				topLeft: '10',
+				topRight: 'a',
+				bottomLeft: '10',
+				bottomRight: '10',
+			},
+			response: '0px',
+		},
+		{
+			input: {
+				topLeft: '10',
+				topRight: '10',
+				bottomLeft: 'a',
+				bottomRight: '10',
+			},
+			response: '0px',
+		},
+		{
+			input: {
+				topLeft: '10',
+				topRight: '10',
+				bottomLeft: '10',
+				bottomRight: 'a',
+			},
+			response: '0px',
+		},
+		{
+			input: {
+				topLeft: 'a',
+				topRight: 'a',
+				bottomLeft: '10k',
+				bottomRight: 'a',
+			},
+			response: '0px',
+		},
+		{
+			input: {
+				topLeft: '0',
+				topRight: '0',
+				bottomLeft: '0',
+				bottomRight: '0',
+			},
+			response: '0px',
+		},
+		{
+			input: {
+				topLeft: '10',
+				topRight: '10',
+				bottomLeft: '10',
+				bottomRight: '10',
+			},
+			response: '10px',
+		},
+		{
+			input: {
+				topLeft: '10px',
+				topRight: '10px',
+				bottomLeft: '10px',
+				bottomRight: '10px',
+			},
+			response: '10px',
+		},
+		{
+			input: {
+				topLeft: '10%',
+				topRight: '10%',
+				bottomLeft: '10%',
+				bottomRight: '10%',
+			},
+			response: '10%',
+		},
+		{
+			input: {
+				topLeft: '10',
+				topRight: '20',
+				bottomLeft: '20',
+				bottomRight: '10',
+			},
+			response: '10px 20px',
+		},
+		{
+			input: {
+				topLeft: '10px',
+				topRight: '20px',
+				bottomLeft: '20px',
+				bottomRight: '10px',
+			},
+			response: '10px 20px',
+		},
+		{
+			input: {
+				topLeft: '10%',
+				topRight: '20%',
+				bottomLeft: '20%',
+				bottomRight: '10%',
+			},
+			response: '10% 20%',
+		},
+		{
+			input: {
+				topLeft: '30',
+				topRight: '20',
+				bottomLeft: '20',
+				bottomRight: '50',
+			},
+			response: '30px 20px 50px',
+		},
+		{
+			input: {
+				topLeft: '30px',
+				topRight: '20px',
+				bottomLeft: '20px',
+				bottomRight: '50px',
+			},
+			response: '30px 20px 50px',
+		},
+		{
+			input: {
+				topLeft: '30%',
+				topRight: '20%',
+				bottomLeft: '20%',
+				bottomRight: '50%',
+			},
+			response: '30% 20% 50%',
+		},
+		{
+			input: {
+				topLeft: '10',
+				topRight: '20',
+				bottomLeft: '30',
+				bottomRight: '40',
+			},
+			response: '10px 20px 40px 30px',
+		},
+		{
+			input: {
+				topLeft: '10px',
+				topRight: '20px',
+				bottomLeft: '30px',
+				bottomRight: '40px',
+			},
+			response: '10px 20px 40px 30px',
+		},
+		{
+			input: {
+				topLeft: '10%',
+				topRight: '20%',
+				bottomLeft: '30%',
+				bottomRight: '40%',
+			},
+			response: '10% 20% 40% 30%',
+		},
+		{
+			input: {
+				topLeft: '10%',
+				topRight: '20px',
+				bottomLeft: '30%',
+				bottomRight: '40px',
+			},
+			response: '10% 20px 40px 30%',
+		},
+	];
+
+	it.each(cornersDataSet)(
+		'can parse $input as $response',
+		({ input, response }) => {
+			expect(
+				DimensionEngine.cssValue(
+					input.topLeft,
+					input.topRight,
+					input.bottomLeft,
+					input.bottomRight
+				)
+			).toStrictEqual(response);
 		}
 	);
 });
