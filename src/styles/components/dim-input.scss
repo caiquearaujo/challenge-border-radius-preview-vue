@@ -1,0 +1,72 @@
+$corner-color: #4b364e;
+
+.dim-input {
+	display: flex;
+	flex-direction: column;
+
+	label {
+		font-size: 1.1rem;
+		font-weight: bold;
+		display: table;
+		margin-bottom: 6px;
+		margin-left: 12px;
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			width: 10px;
+			height: 10px;
+			left: -12px;
+			top: -2px;
+			background-color: $corner-color;
+		}
+
+		&.top-left::before {
+			border-radius: 100% 0 0 0;
+		}
+
+		&.top-right::before {
+			border-radius: 0 100% 0 0;
+		}
+
+		&.bottom-left::before {
+			border-radius: 0 0 0 100%;
+		}
+
+		&.bottom-right::before {
+			border-radius: 0 0 100% 0;
+		}
+	}
+
+	input {
+		font-size: 1.4rem;
+		line-height: 1.4rem;
+		font-family: $font-family;
+		padding: 8px 6px 6px;
+		border: 2px solid $black;
+		border-radius: 6px;
+		max-width: 100px;
+		outline: none;
+	}
+
+	&.invalid {
+		input {
+			border-color: $red;
+		}
+
+		span {
+			margin-top: 6px;
+			font-weight: bold;
+			color: $red;
+		}
+	}
+}
+
+@media screen and (max-width: 230px) {
+	.dim-input {
+		input {
+			max-width: 100%;
+		}
+	}
+}

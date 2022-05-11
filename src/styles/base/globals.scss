@@ -1,0 +1,64 @@
+.title {
+	font-size: 3.2rem;
+	text-align: center;
+	font-weight: bold;
+	margin: 48px auto 24px;
+	width: 100%;
+	max-width: 280px;
+}
+
+.description {
+	width: 100%;
+	font-size: 1.6rem;
+	line-height: 2.2rem;
+	max-width: 230px;
+	padding: 0 16px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.flex-wrapper {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+	max-width: 230px;
+	margin: 48px auto;
+
+	.column {
+		flex: 1 1 25%;
+		padding: 6px;
+	}
+}
+
+.copied-box {
+	position: absolute;
+	bottom: 12px;
+	left: 50%;
+	padding: 14px 12px 12px;
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+	color: $white;
+	background-color: $black;
+	border-radius: 6px;
+	text-transform: uppercase;
+	font-weight: bold;
+	z-index: 99;
+	transform: translate(-50%, 0);
+	opacity: 1;
+	transition: transform 0.4s, opacity 0.4s;
+
+	&.hidden {
+		opacity: 0;
+		transform: translate(-50%, 50%);
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.flex-wrapper {
+		.column {
+			flex: 1 1 50%;
+		}
+	}
+}
