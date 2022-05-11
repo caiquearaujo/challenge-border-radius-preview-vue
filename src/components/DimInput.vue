@@ -40,25 +40,36 @@ export default defineComponent({
 
 	data() {
 		return {
+			// state to input value validation
 			invalid: false,
 		};
 	},
 
-	emits: ['update:modelValue', 'increase', 'decrease'],
+	emits: [
+		// when input value is updated
+		'update:modelValue',
+		// when need to increase the input value
+		'increase',
+		// when need to decrease the input value
+		'decrease',
+	],
 
 	props: {
+		// Corner applyed to input
 		corner: {
 			type: String as PropType<TCorner>,
 			required: true,
 			validator: (v: string) => allowedCorners.indexOf(v) !== -1,
 		},
 
+		// Name of corner to style it
 		name: {
 			type: String as PropType<TCornerName>,
 			required: true,
 			validator: (v: string) => allowedNames.indexOf(v) !== -1,
 		},
 
+		// Input value
 		modelValue: {
 			type: String,
 			default: '0px',
@@ -66,6 +77,16 @@ export default defineComponent({
 	},
 
 	methods: {
+		/**
+		 * Anytime change input value.
+		 *
+		 * Parses input when if invalid,
+		 * set it to invalid. Emits the
+		 * update:modelValue event.
+		 *
+		 * @param {Event} e
+		 * @returns {void}
+		 */
 		onChange(e: any): void {
 			this.$data.invalid = false;
 			const value = e.target.value;
@@ -77,6 +98,15 @@ export default defineComponent({
 			this.$emit('update:modelValue', value);
 		},
 
+		/**
+		 * Anytime keydown pressed.
+		 *
+		 * When ArrowUp emits increase event,
+		 * if ArrowDown emits decrease event.
+		 *
+		 * @param {Event} e
+		 * @returns {void}
+		 */
 		onKeyDown(e: any): void {
 			const key = e.key || e.keyCode;
 
