@@ -14,6 +14,7 @@ export default defineComponent({
 	name: 'CustomBox',
 
 	props: {
+		// CSS syntax value to border-radius
 		borderRadius: {
 			type: String,
 			default: '0px',

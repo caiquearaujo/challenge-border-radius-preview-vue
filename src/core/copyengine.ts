@@ -1,4 +1,15 @@
 export default class CopyEngine {
+	/**
+	 * It will copy value to clipboard, and
+	 * after will trigger copied() callback.
+	 *
+	 * It implements a fallback if browser does
+	 * not support navigator.clipboard.
+	 *
+	 * @param {string} value
+	 * @param {function} copied
+	 * @returns {void}
+	 */
 	static copy(value: string, copied: () => void): void {
 		if (navigator.clipboard) {
 			navigator.clipboard
@@ -12,6 +23,18 @@ export default class CopyEngine {
 		CopyEngine.fallback(value, copied);
 	}
 
+	/**
+	 * Fallback to old browsers. Tt creates a new
+	 * textarea element out of screen, sets value
+	 * to it, and selects content executing copy
+	 * command.
+	 *
+	 * After copying, trigger copied() callback.
+	 *
+	 * @param {string} value
+	 * @param {function} copied
+	 * @returns {void}
+	 */
 	static fallback(value: string, copied: () => void): void {
 		const el = document.createElement('textarea');
 
