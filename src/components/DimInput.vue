@@ -8,7 +8,8 @@
 			:required="true"
 			:value="modelValue"
 			@input="onChange"
-			@keydown="onKeyDown" />
+			@keydown="onKeyDown"
+			data-corner />
 		<span class="invalid" v-if="invalid">invalid</span>
 	</div>
 </template>
@@ -19,6 +20,20 @@ import { PropType } from '@vue/runtime-core';
 
 import { TCorner, TCornerName } from '@/types';
 import { DimensionEngine } from '@/core';
+
+const allowedCorners = [
+	'topLeft',
+	'topRight',
+	'bottomLeft',
+	'bottomRight',
+];
+
+const allowedNames = [
+	'top-left',
+	'top-right',
+	'bottom-left',
+	'bottom-right',
+];
 
 export default defineComponent({
 	name: 'DimInput',
@@ -35,11 +50,13 @@ export default defineComponent({
 		corner: {
 			type: String as PropType<TCorner>,
 			required: true,
+			validator: (v: string) => allowedCorners.indexOf(v) !== -1,
 		},
 
 		name: {
 			type: String as PropType<TCornerName>,
 			required: true,
+			validator: (v: string) => allowedNames.indexOf(v) !== -1,
 		},
 
 		modelValue: {
