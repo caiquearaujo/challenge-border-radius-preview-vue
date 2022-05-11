@@ -8,8 +8,8 @@ export default class DimensionEngine {
 		const corners = DimensionEngine.parseCorners([
 			topLeft,
 			topRight,
-			bottomLeft,
 			bottomRight,
+			bottomLeft,
 		]);
 
 		// Invalid corner found
@@ -50,9 +50,6 @@ export default class DimensionEngine {
 			return false;
 		}
 
-		// When only number, return as pixel
-		if (!match.dim) return `${match.num}px`;
-
 		return input;
 	}
 
@@ -63,39 +60,31 @@ export default class DimensionEngine {
 			return '0px';
 		}
 
-		// px
-		if (!match.dim || match.dim === 'px') {
-			return `${match.num >= 0 ? match.num + 1 : 0}px`;
+		let num = match.num >= 0 ? match.num + 1 : 0;
+
+		if (match.dim === '%') {
+			num = num >= 100 ? 100 : num;
 		}
 
-		console.log(match);
-		// %
-		return `${
-			match.num >= 0 ? (match.num < 100 ? match.num + 1 : 100) : 0
-		}%`;
+		return `${num}${match.dim}`;
 	}
 
 	static decreaseDim(input: string): string {
 		const match = DimensionEngine.matchDim(input);
 
-		if (match === null) {
-			return '0px';
-		}
-
-		// px
-		if (!match.dim || match.dim === 'px') {
-			return `${match.num <= 0 ? 0 : match.num - 1}px`;
-		}
-
-		// %
-		return `${match.num <= 0 ? 0 : match.num - 1}%`;
+		return match === null
+			? '0px'
+			: `${match.num <= 0 ? 0 : match.num - 1}${match.dim}`;
 	}
 
 	static matchDim(input: string) {
-		const match = input.match(/([0-9]+)(px|%)?/i);
+		const match = input.match(/^(-?[0-9]+)(px|%)?$/i);
 
 		if (!match) return null;
 
-		return { num: parseInt(match[1]), dim: match[2] };
+		return {
+			num: parseInt(match[1]),
+			dim: !match[2] ? 'px' : match[2],
+		};
 	}
 }

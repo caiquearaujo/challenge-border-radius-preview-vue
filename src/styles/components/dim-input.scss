@@ -31,11 +31,11 @@ $corner-color: #4b364e;
 		}
 
 		&.bottom-left::before {
-			border-radius: 0 0 100% 0;
+			border-radius: 0 0 0 100%;
 		}
 
 		&.bottom-right::before {
-			border-radius: 0 0 0 100%;
+			border-radius: 0 0 100% 0;
 		}
 	}
 
