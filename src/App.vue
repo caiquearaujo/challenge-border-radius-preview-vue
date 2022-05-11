@@ -62,17 +62,24 @@ export default defineComponent({
 
 	data() {
 		return {
+			// Default corners
 			corners: {
 				topLeft: '10px',
 				topRight: '10px',
 				bottomRight: '10px',
 				bottomLeft: '10px',
 			} as Record<TCorner, string>,
+			// Must show a feedback about copying to clipboard
 			showCopy: false,
 		};
 	},
 
 	computed: {
+		/**
+		 * Convert corners to css syntax.
+		 *
+		 * @returns {string}
+		 */
 		borderRadiusValue(): string {
 			return DimensionEngine.cssValue(
 				this.$data.corners.topLeft,
@@ -84,14 +91,35 @@ export default defineComponent({
 	},
 
 	methods: {
+		/**
+		 * Increase i value.
+		 *
+		 * @param {string} i
+		 * @param {TCorner} corner
+		 * @returns {void}
+		 */
 		onIncrease(i: string, corner: TCorner): void {
 			this.$data.corners[corner] = DimensionEngine.increaseDim(i);
 		},
 
+		/**
+		 * Decrease i value.
+		 *
+		 * @param {string} i
+		 * @param {TCorner} corner
+		 * @returns {void}
+		 */
 		onDecrease(i: string, corner: TCorner): void {
 			this.$data.corners[corner] = DimensionEngine.decreaseDim(i);
 		},
 
+		/**
+		 * Copy full css syntax.
+		 *
+		 * @param {string} i
+		 * @param {TCorner} corner
+		 * @returns {void}
+		 */
 		copy(): void {
 			CopyEngine.copy(
 				`border-radius: ${this.borderRadiusValue};`,
@@ -99,6 +127,13 @@ export default defineComponent({
 			);
 		},
 
+		/**
+		 * Display copied feedback.
+		 *
+		 * @param {string} i
+		 * @param {TCorner} corner
+		 * @returns {void}
+		 */
 		copied(): void {
 			this.showCopy = true;
 
